@@ -10,7 +10,7 @@ resource "azurerm_user_assigned_identity" "base" {
 resource "azurerm_role_assignment" "base" {
   scope                = azurerm_resource_group.this.id
   role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.base.principal_id
+  principal_id         = azurerm_user_assigned_identity.fusion-base.principal_id
 }
 
 # Azure kubenetent Cluster Block
@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.base.id]
+    identity_ids = [azurerm_user_assigned_identity.fusion-base.id]
   }
 
   tags = {
@@ -66,6 +66,6 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   depends_on = [
-    azurerm_role_assignment.base
+    azurerm_role_assignment.fusion-base
   ]
 }
